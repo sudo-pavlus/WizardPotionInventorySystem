@@ -25,10 +25,9 @@ public:
 	void showStudentWizard(const std::string name) const;
 	void showPotion(const std::string potionName) const;
 
-
 private:
-	StudentWizard* students;
-	int numStudents;
+	StudentWizard* students = nullptr;
+	int numStudents = 0;
 	int findStudentIndex(const std::string& name) const;
 	void insertStudentAt(const StudentWizard& newStudent, int pos);
 	void removeStudentAt(int pos);

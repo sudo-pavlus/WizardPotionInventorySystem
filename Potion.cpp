@@ -1,16 +1,13 @@
 #include "Potion.h"
 #include <iostream>
 
-Potion::Potion()
-{
-}
+Potion::Potion() : potionName(""), strength(0)
+{}
 
-Potion::Potion(std::string name, int str)
-{
-	potionName = name;
-	strength = str;
-}
+Potion::Potion(const std::string& name, int str)
+    : potionName(name), strength(str) {}
 
 Potion::~Potion()
-{
-}
+{}
+
+
