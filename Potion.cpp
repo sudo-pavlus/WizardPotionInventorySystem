@@ -1,6 +1,16 @@
 #include "Potion.h"
 #include <iostream>
 
-int main() {
-	
+Potion::Potion()
+{
+}
+
+Potion::Potion(std::string name, int str)
+{
+	potionName = name;
+	strength = str;
+}
+
+Potion::~Potion()
+{
 }
