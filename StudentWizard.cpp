@@ -65,6 +65,9 @@ void StudentWizard::removePotion(const std::string& potionName) {
 		potions = newPotions;
 		--numPotions;
 	}
+	if (numPotions == 0) {
+		potions = nullptr;
+	}
 }
 
 int StudentWizard::findPotionIndex(const std::string& potionName) const {

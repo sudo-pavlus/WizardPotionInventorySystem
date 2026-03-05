@@ -1,6 +1,9 @@
 #include "WizardPotionInventorySystem.h"
 #include "StudentWizard.h"
 #include <iostream>
+using namespace std;
+
+
 WizardPotionInventorySystem::WizardPotionInventorySystem()
 {
 }
@@ -52,7 +55,7 @@ void WizardPotionInventorySystem::removeStudentWizard(const std::string name)
 
 void WizardPotionInventorySystem::
 brewPotion(const std::string studentName, 
-const std::string potionName, int strength)
+const std::string potionName, const int strength)
 {
 	int index = findStudentIndex(studentName);
 	if(index == -1){
@@ -79,6 +82,7 @@ void WizardPotionInventorySystem::discardPotion(const std::string studentName, c
         return;
     }
     students[index].removePotion(potionName);
+
     std::cout << "Discarded potion " << potionName << " from student wizard " << studentName << "." << std::endl;
 }
 
