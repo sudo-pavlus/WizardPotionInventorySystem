@@ -41,7 +41,7 @@ void StudentWizard::removePotion(const std::string& potionName) {
 	}
 }
 
-int StudentWizard::findPotionIdex(const std::string& potionName) const {
+int StudentWizard::findPotionIndex(const std::string& potionName) const {
 	for (int i = 0; i < numPotions; ++i) {
 		if (potions[i].getPotionName() == potionName) {
 			return i;

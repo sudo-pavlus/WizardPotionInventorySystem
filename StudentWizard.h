@@ -12,6 +12,9 @@ public:
 	StudentWizard();
 	StudentWizard(const std::string& name, const std::string& house);
 
+	StudentWizard(const StudentWizard& other);
+	StudentWizard& operator=(const StudentWizard& other);
+
 	~StudentWizard();
 
 	//Getters
@@ -22,9 +25,9 @@ public:
 	//Functions
 	void addPotion(const std::string& potionName, int strength);
 	void removePotion(const std::string& potionName);
-	int findPotionIdex(const std::string& potionName) const;
+	int findPotionIndex(const std::string& potionName) const;
 	const Potion& getPotion(int index) const;
-	int getTotalStrength();
+	int getTotalStrength() const;
 
 
 

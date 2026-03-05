@@ -50,19 +50,61 @@ void WizardPotionInventorySystem::removeStudentWizard(const std::string name)
 
 }
 
-void WizardPotionInventorySystem::brewPotion(const std::string studentName, const std::string potionName, int strength)
+void WizardPotionInventorySystem::
+brewPotion(const std::string studentName, 
+const std::string potionName, int strength)
 {
-    // TODO: implement
+	int index = findStudentIndex(studentName);
+	if(index == -1){
+        std::cout << "Cannot brew potion. Student wizard " << studentName << " does not exist." << std::endl;
+        return;
+    }
+    if (students[index].findPotionIdex(potionName) != -1) {
+        std::cout << "Cannot brew potion. Potion already exists in potion inventory of " << studentName << "." << std::endl;
+        return;
+    }
+	students[index].addPotion(potionName, strength);
+    std::cout << "Brewed potion " << potionName << " for student wizard " << studentName << "." << std::endl;
 }
 
 void WizardPotionInventorySystem::discardPotion(const std::string studentName, const std::string potionName)
 {
-    // TODO: implement
+    int index = findStudentIndex(studentName);
+    if (index == -1) {
+        std::cout << "Cannot discard potion. Student wizard " << studentName << " does not exist." << std::endl;
+        return;
+    }
+    if (students[index].findPotionIdex(potionName) == -1) {
+        std::cout << "Cannot discard potion. Potion does not exist in potion inventory of " << studentName << "." << std::endl;
+        return;
+    }
+    students[index].removePotion(potionName);
+    std::cout << "Discarded potion " << potionName << " from student wizard " << studentName << "." << std::endl;
 }
 
-void WizardPotionInventorySystem::transferPotion(const std::string potionName, const std::string fromStudentName, const std::string toStudentName)
+void WizardPotionInventorySystem::transferPotion
+(const std::string potionName, const std::string
+    fromStudentName, const std::string toStudentName)
 {
-    // TODO: implement
+	int fromIndex = findStudentIndex(fromStudentName);
+	int toIndex = findStudentIndex(toStudentName);
+
+    if (fromIndex == -1 || toIndex == -1) {
+        std::cout << "Cannot transfer potion. One or both student wizards do not exist." << std::endl;
+        return;
+    }
+    if (students[fromIndex].findPotionIdex(potionName) == -1) {
+        std::cout << "Cannot transfer potion. Potion does not exist in potion inventory of " << fromStudentName << "." << std::endl;
+        return;
+	}
+	if (students[toIndex].findPotionIdex(potionName) != -1) {
+        std::cout << "Cannot transfer potion. Potion already exists in potion inventory of " << toStudentName << "." << std::endl;
+        return;
+    }
+	const Potion& potionToTransfer = students[fromIndex].getPotion(students[fromIndex].findPotionIdex(potionName));
+	students[toIndex].addPotion(potionToTransfer.getPotionName(), potionToTransfer.getStrength());
+    students[fromIndex].removePotion(potionName);
+	std::cout << "Transferred potion " << potionName << " from " << fromStudentName << " to " << toStudentName << "." << std::endl;
 }
 
 void WizardPotionInventorySystem::showAllStudentWizards() const
@@ -95,12 +137,44 @@ void WizardPotionInventorySystem::sortStudentsAlphabetically() {
 
 void WizardPotionInventorySystem::showStudentWizard(const std::string name) const
 {
-    // TODO: implement
+	int index = findStudentIndex(name);
+    if (index == -1) {
+        std::cout << "Student wizard " << name << " does not exist." << std::endl;
+        return;
+    }
+    const StudentWizard& student = students[index];
+    std::cout << "Student wizard:"<< std::endl << student.getStudentName();
+    std::cout << ", House: " << student.getHouse();
+	std::cout << ", " << student.getNumPotions() << " potion(s), " << student.getTotalStrength() << " total strength." << std::endl;
+    std::cout << "Potions:" << std::endl;
+    for (int i = 0; i < student.getNumPotions(); i++) {
+        const Potion& potion = student.getPotion(i);
+        std::cout << potion.getPotionName() 
+			<< ", strength " << potion.getStrength() << "."
+                  << std::endl;
+	}
 }
 
-void WizardPotionInventorySystem::showPotion(const std::string potionName) const
-{
-    // TODO: implement
+void WizardPotionInventorySystem::showPotion(const std::string potionName) const {
+    int count = 0;
+    for (int i = 0; i < numStudents; i++) {
+        if (students[i].findPotionIdex(potionName) != -1) {
+            count++;
+        }
+    }
+    if (count == 0) {
+        std::cout << "Potion " << potionName << " does not exist." << std::endl;
+        return;
+    }
+    std::cout << "Potion \"" << potionName << "\" found in " << count << " student wizard(s):" << std::endl;
+    int num = 1;
+    for (int i = 0; i < numStudents; i++) {
+        int idx = students[i].findPotionIdex(potionName);
+        if (idx != -1) {
+            std::cout << num++ << ". " << students[i].getStudentName()
+                << ", strength " << students[i].getPotion(idx).getStrength() << "." << std::endl;
+        }
+    }
 }
 
 int WizardPotionInventorySystem::findStudentIndex(const std::string& name) const {
