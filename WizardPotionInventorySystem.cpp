@@ -59,7 +59,7 @@ const std::string potionName, int strength)
         std::cout << "Cannot brew potion. Student wizard " << studentName << " does not exist." << std::endl;
         return;
     }
-    if (students[index].findPotionIdex(potionName) != -1) {
+    if (students[index].findPotionIndex(potionName) != -1) {
         std::cout << "Cannot brew potion. Potion already exists in potion inventory of " << studentName << "." << std::endl;
         return;
     }
@@ -74,7 +74,7 @@ void WizardPotionInventorySystem::discardPotion(const std::string studentName, c
         std::cout << "Cannot discard potion. Student wizard " << studentName << " does not exist." << std::endl;
         return;
     }
-    if (students[index].findPotionIdex(potionName) == -1) {
+    if (students[index].findPotionIndex(potionName) == -1) {
         std::cout << "Cannot discard potion. Potion does not exist in potion inventory of " << studentName << "." << std::endl;
         return;
     }
@@ -93,15 +93,15 @@ void WizardPotionInventorySystem::transferPotion
         std::cout << "Cannot transfer potion. One or both student wizards do not exist." << std::endl;
         return;
     }
-    if (students[fromIndex].findPotionIdex(potionName) == -1) {
+    if (students[fromIndex].findPotionIndex(potionName) == -1) {
         std::cout << "Cannot transfer potion. Potion does not exist in potion inventory of " << fromStudentName << "." << std::endl;
         return;
 	}
-	if (students[toIndex].findPotionIdex(potionName) != -1) {
+	if (students[toIndex].findPotionIndex(potionName) != -1) {
         std::cout << "Cannot transfer potion. Potion already exists in potion inventory of " << toStudentName << "." << std::endl;
         return;
     }
-	const Potion& potionToTransfer = students[fromIndex].getPotion(students[fromIndex].findPotionIdex(potionName));
+	const Potion& potionToTransfer = students[fromIndex].getPotion(students[fromIndex].findPotionIndex(potionName));
 	students[toIndex].addPotion(potionToTransfer.getPotionName(), potionToTransfer.getStrength());
     students[fromIndex].removePotion(potionName);
 	std::cout << "Transferred potion " << potionName << " from " << fromStudentName << " to " << toStudentName << "." << std::endl;
@@ -158,7 +158,7 @@ void WizardPotionInventorySystem::showStudentWizard(const std::string name) cons
 void WizardPotionInventorySystem::showPotion(const std::string potionName) const {
     int count = 0;
     for (int i = 0; i < numStudents; i++) {
-        if (students[i].findPotionIdex(potionName) != -1) {
+        if (students[i].findPotionIndex(potionName) != -1) {
             count++;
         }
     }
@@ -169,7 +169,7 @@ void WizardPotionInventorySystem::showPotion(const std::string potionName) const
     std::cout << "Potion \"" << potionName << "\" found in " << count << " student wizard(s):" << std::endl;
     int num = 1;
     for (int i = 0; i < numStudents; i++) {
-        int idx = students[i].findPotionIdex(potionName);
+        int idx = students[i].findPotionIndex(potionName);
         if (idx != -1) {
             std::cout << num++ << ". " << students[i].getStudentName()
                 << ", strength " << students[i].getPotion(idx).getStrength() << "." << std::endl;
