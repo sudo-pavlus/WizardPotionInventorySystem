@@ -53,21 +53,20 @@ void StudentWizard::addPotion(const std::string& potionName, int strength) {
 }
 
 void StudentWizard::removePotion(const std::string& potionName) {
-	int index = findPotionIndex(potionName);
-	if (index != -1) {
-		Potion* newPotions = new Potion[numPotions - 1];
-		for (int i = 0, j = 0; i < numPotions; ++i) {
-			if (i != index) {
-				newPotions[j++] = potions[i];
-			}
-		}
-		delete[] potions;
-		potions = newPotions;
-		--numPotions;
-	}
-	if (numPotions == 0) {
-		potions = nullptr;
-	}
+    int index = findPotionIndex(potionName);
+    if (index != -1) {
+        if (numPotions - 1 > 0) {
+            Potion* newPotions = new Potion[numPotions - 1];
+            for (int i = 0, j = 0; i < numPotions; ++i)
+                if (i != index) newPotions[j++] = potions[i];
+            delete[] potions;
+            potions = newPotions;
+        } else {
+            delete[] potions;
+            potions = nullptr;
+        }
+        --numPotions;
+    }
 }
 
 int StudentWizard::findPotionIndex(const std::string& potionName) const {
