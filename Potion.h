@@ -1,3 +1,6 @@
+//Name: Ibrahim Karakus
+//Section: 1
+//Student ID: 22403627
 #ifndef POTION_H
 #define POTION_H
 

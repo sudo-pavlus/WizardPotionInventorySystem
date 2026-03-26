@@ -1,3 +1,6 @@
+//Name: Ibrahim Karakus
+//Section: 1
+//Student ID: 22403627
 #include "WizardPotionInventorySystem.h"
 #include "StudentWizard.h"
 #include <iostream>
@@ -16,48 +19,54 @@ WizardPotionInventorySystem::~WizardPotionInventorySystem()
 void WizardPotionInventorySystem::addStudentWizard(const std::string name, const std::string house)
 {
     if (findStudentIndex(name) != -1) {
-        std::cout << "Cannot add student wizard. Student wizard " << name << " already exists." << std::endl;
+        // std::cout << "Cannot add student wizard. Student wizard " << name << " already exists." << std::endl;
         return;
     }
-    StudentWizard newStudent(name, house);
-    StudentWizard* temp = new StudentWizard[numStudents + 1];
-    for (int i = 0; i < numStudents; i++) {
-        temp[i] = students[i];
-    }
-    temp[numStudents] = newStudent;
-    delete[] students;
-    students = temp;
-    numStudents++;
-    sortStudentsAlphabetically();
 
-    std::cout << "Added student wizard " << name << "." << std::endl;
+    if (numStudents == capacity) {
+        int newCapacity = (capacity == 0) ? 1 : capacity * 2;
+        StudentWizard* temp = new StudentWizard[newCapacity];
+        for (int i = 0; i < numStudents; i++)
+            temp[i] = students[i];
+        delete[] students;
+        students = temp;
+        capacity = newCapacity;
+    }
+
+    int lo = 0, hi = numStudents - 1, pos = numStudents;
+    while (lo <= hi) {
+        int mid = (lo + hi) / 2;
+        if (students[mid].getStudentName() < name) lo = mid + 1;
+        else { pos = mid; hi = mid - 1; }
+    }
+
+    StudentWizard newStudent(name, house);
+    for (int i = numStudents; i > pos; i--)
+        students[i] = students[i - 1];
+    students[pos] = newStudent;
+    numStudents++;
+
+    // std::cout << "Added student wizard " << name << "." << std::endl;
 }
 
 void WizardPotionInventorySystem::removeStudentWizard(const std::string name)
 {
     int index = findStudentIndex(name);
-	if (index == -1) {
-        std::cout << "Cannot remove student wizard. Student wizard " << name << " does not exist." << std::endl;
+    if (index == -1) {
+        // std::cout << "Cannot remove student wizard..." << std::endl;
         return;
     }
-    StudentWizard* temp = new StudentWizard[numStudents - 1];
-    for (int i = 0, j = 0; i < numStudents; i++) {
-        if (i != index) {
-            temp[j++] = students[i];
-        }
-    }
-    delete[] students;
-    students = temp;
+    for (int i = index; i < numStudents - 1; i++)
+        students[i] = students[i + 1];
     numStudents--;
-	std::cout << "Removed student wizard " << name << "." << std::endl;
-
+    // std::cout << "Removed student wizard " << name << "." << std::endl;
 }
 
-void WizardPotionInventorySystem::
-brewPotion(const std::string studentName, 
+void WizardPotionInventorySystem::brewPotion(const std::string studentName, 
 const std::string potionName, const int strength)
 {
 	int index = findStudentIndex(studentName);
+
 	if(index == -1){
         std::cout << "Cannot brew potion. Student wizard " << studentName << " does not exist." << std::endl;
         return;
@@ -113,18 +122,18 @@ void WizardPotionInventorySystem::transferPotion
 
 void WizardPotionInventorySystem::showAllStudentWizards() const
 {
-    std::cout << "Student wizards in the system:" << std::endl;
+    //std::cout << "Student wizards in the system:" << std::endl;
     if (numStudents == 0) {
         std::cout << "None" << std::endl;
         return;
     }
     for (int i = 0; i < numStudents; ++i) {
-        std::cout << students[i].getStudentName()
-                  << ", House: " << students[i].getHouse() 
-                  <<", "<<students[i].getNumPotions() 
-                  <<" potion(s), "
-                  <<students[i].getTotalStrength()<<" total strength."
-                  << std::endl;
+        //std::cout << students[i].getStudentName()
+        //          << ", House: " << students[i].getHouse() 
+        //          <<", "<<students[i].getNumPotions() 
+        //          <<" potion(s), "
+        //          <<students[i].getTotalStrength()<<" total strength."
+        //          << std::endl;
     }
 }
 void WizardPotionInventorySystem::sortStudentsAlphabetically() {
@@ -143,19 +152,20 @@ void WizardPotionInventorySystem::showStudentWizard(const std::string name) cons
 {
 	int index = findStudentIndex(name);
     if (index == -1) {
-        std::cout << "Student wizard " << name << " does not exist." << std::endl;
+        //std::cout << "Student wizard " << name << " does not exist." << std::endl;
+        //std::cout << "Student wizard " << name << " does not exist." << std::endl;
         return;
     }
     const StudentWizard& student = students[index];
-    std::cout << "Student wizard:"<< std::endl << student.getStudentName();
-    std::cout << ", House: " << student.getHouse();
-	std::cout << ", " << student.getNumPotions() << " potion(s), " << student.getTotalStrength() << " total strength." << std::endl;
-    std::cout << "Potions:" << std::endl;
+ //   std::cout << "Student wizard:"<< std::endl << student.getStudentName();
+ //   std::cout << ", House: " << student.getHouse();
+	//std::cout << ", " << student.getNumPotions() << " potion(s), " << student.getTotalStrength() << " total strength." << std::endl;
+ //   std::cout << "Potions:" << std::endl;
     for (int i = 0; i < student.getNumPotions(); i++) {
         const Potion& potion = student.getPotion(i);
-        std::cout << potion.getPotionName() 
-			<< ", strength " << potion.getStrength() << "."
-                  << std::endl;
+   //     std::cout << potion.getPotionName() 
+			//<< ", strength " << potion.getStrength() << "."
+   //               << std::endl;
 	}
 }
 
@@ -182,10 +192,15 @@ void WizardPotionInventorySystem::showPotion(const std::string potionName) const
 }
 
 int WizardPotionInventorySystem::findStudentIndex(const std::string& name) const {
-    for (int i = 0; i < numStudents; i++) {
-        if (students[i].getStudentName() == name) {
-            return i;
-        }
+    int lo = 0, hi = numStudents - 1;
+    while (lo <= hi) {
+        int mid = (lo + hi) / 2;
+        if (students[mid].getStudentName() == name) 
+            return mid;
+        if (students[mid].getStudentName() < name)  
+            lo = mid + 1;
+        else
+            hi = mid - 1;
     }
     return -1;
 }

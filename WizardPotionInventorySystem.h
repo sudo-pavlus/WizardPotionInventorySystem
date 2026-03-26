@@ -1,3 +1,6 @@
+//Name: Ibrahim Karakus
+//Section: 1
+//Student ID: 22403627
 #ifndef WIZARD_POTION_INVENTORY_SYSTEM_H
 #define WIZARD_POTION_INVENTORY_SYSTEM_H
 
@@ -30,6 +33,7 @@ private:
 	int numStudents = 0;
 	int findStudentIndex(const std::string& name) const;
 	void sortStudentsAlphabetically();
+	int capacity = 0;
 };
 
 #endif
