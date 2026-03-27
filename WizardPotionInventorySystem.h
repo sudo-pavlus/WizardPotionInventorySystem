@@ -30,6 +30,7 @@ private:
 	int numStudents = 0;
 	int findStudentIndex(const std::string& name) const;
 	void sortStudentsAlphabetically();
+	int capacity = 0;
 };
 
 #endif

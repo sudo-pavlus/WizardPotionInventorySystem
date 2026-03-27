@@ -19,16 +19,41 @@ void WizardPotionInventorySystem::addStudentWizard(const std::string name, const
         //std::cout << "Cannot add student wizard. Student wizard " << name << " already exists." << std::endl;
         return;
     }
+
     StudentWizard newStudent(name, house);
-    StudentWizard* temp = new StudentWizard[numStudents + 1];
-    for (int i = 0; i < numStudents; i++) {
-        temp[i] = students[i];
+
+	if (capacity == 0) {
+        capacity = 1;
+        students = new StudentWizard[capacity];
     }
-    temp[numStudents] = newStudent;
-    delete[] students;
-    students = temp;
+    else if(numStudents == capacity){
+        capacity *= 2;
+        StudentWizard* temp = new StudentWizard[capacity];
+        for(int i = 0; i < numStudents; i++){
+            temp[i] = students[i];
+        }
+        delete[] students;
+        students = temp;
+        
+    }
+    int pos = numStudents;
+    while (pos > 0 && students[pos - 1].getStudentName() > name) {
+        students[pos] = students[pos - 1];
+        pos--;
+    }
+    students[pos] = newStudent;
     numStudents++;
-    sortStudentsAlphabetically();
+
+    //StudentWizard newStudent(name, house);
+    //StudentWizard* temp = new StudentWizard[numStudents + 1];
+    //for (int i = 0; i < numStudents; i++) {
+    //    temp[i] = students[i];
+    //}
+    //temp[numStudents] = newStudent;
+    //delete[] students;
+    //students = temp;
+    //numStudents++;
+    //sortStudentsAlphabetically();
 
     //std::cout << "Added student wizard " << name << "." << std::endl;
 }
@@ -40,16 +65,18 @@ void WizardPotionInventorySystem::removeStudentWizard(const std::string name)
         //std::cout << "Cannot remove student wizard. Student wizard " << name << " does not exist." << std::endl;
         return;
     }
-    StudentWizard* temp = new StudentWizard[numStudents - 1];
-    for (int i = 0, j = 0; i < numStudents; i++) {
-        if (i != index) {
-            temp[j++] = students[i];
-        }
-    }
-    delete[] students;
-    students = temp;
+	students[index] = students[numStudents - 1];
     numStudents--;
-	//std::cout << "Removed student wizard " << name << "." << std::endl;
+ //   StudentWizard* temp = new StudentWizard[numStudents - 1];
+ //   for (int i = 0, j = 0; i < numStudents; i++) {
+ //       if (i != index) {
+ //           temp[j++] = students[i];
+ //       }
+ //   }
+ //   delete[] students;
+ //   students = temp;
+ //   numStudents--;
+	////std::cout << "Removed student wizard " << name << "." << std::endl;
 
 }
 
@@ -182,10 +209,17 @@ void WizardPotionInventorySystem::showPotion(const std::string potionName) const
 }
 
 int WizardPotionInventorySystem::findStudentIndex(const std::string& name) const {
-    for (int i = 0; i < numStudents; i++) {
-        if (students[i].getStudentName() == name) {
-            return i;
-        }
+    int left = 0, right = numStudents - 1;
+
+    while (left <= right) {
+        int mid = (left + right) / 2;
+
+        if (students[mid].getStudentName() == name)
+            return mid;
+        else if (students[mid].getStudentName() < name)
+            left = mid + 1;
+        else
+            right = mid - 1;
     }
     return -1;
 }
