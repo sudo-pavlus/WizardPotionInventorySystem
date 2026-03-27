@@ -26,6 +26,7 @@
   <ItemGroup>
     <ClCompile Include="Potion.cpp" />
     <ClCompile Include="StudentWizard.cpp" />
+    <ClCompile Include="testCases.cpp" />
     <ClCompile Include="WizardPotionInventorySystem.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

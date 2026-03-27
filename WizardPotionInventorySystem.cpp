@@ -16,7 +16,7 @@ WizardPotionInventorySystem::~WizardPotionInventorySystem()
 void WizardPotionInventorySystem::addStudentWizard(const std::string name, const std::string house)
 {
     if (findStudentIndex(name) != -1) {
-        std::cout << "Cannot add student wizard. Student wizard " << name << " already exists." << std::endl;
+        //std::cout << "Cannot add student wizard. Student wizard " << name << " already exists." << std::endl;
         return;
     }
     StudentWizard newStudent(name, house);
@@ -30,14 +30,14 @@ void WizardPotionInventorySystem::addStudentWizard(const std::string name, const
     numStudents++;
     sortStudentsAlphabetically();
 
-    std::cout << "Added student wizard " << name << "." << std::endl;
+    //std::cout << "Added student wizard " << name << "." << std::endl;
 }
 
 void WizardPotionInventorySystem::removeStudentWizard(const std::string name)
 {
     int index = findStudentIndex(name);
 	if (index == -1) {
-        std::cout << "Cannot remove student wizard. Student wizard " << name << " does not exist." << std::endl;
+        //std::cout << "Cannot remove student wizard. Student wizard " << name << " does not exist." << std::endl;
         return;
     }
     StudentWizard* temp = new StudentWizard[numStudents - 1];
@@ -49,7 +49,7 @@ void WizardPotionInventorySystem::removeStudentWizard(const std::string name)
     delete[] students;
     students = temp;
     numStudents--;
-	std::cout << "Removed student wizard " << name << "." << std::endl;
+	//std::cout << "Removed student wizard " << name << "." << std::endl;
 
 }
 
@@ -113,18 +113,18 @@ void WizardPotionInventorySystem::transferPotion
 
 void WizardPotionInventorySystem::showAllStudentWizards() const
 {
-    std::cout << "Student wizards in the system:" << std::endl;
+    //std::cout << "Student wizards in the system:" << std::endl;
     if (numStudents == 0) {
-        std::cout << "None" << std::endl;
+        //std::cout << "None" << std::endl;
         return;
     }
     for (int i = 0; i < numStudents; ++i) {
-        std::cout << students[i].getStudentName()
-                  << ", House: " << students[i].getHouse() 
-                  <<", "<<students[i].getNumPotions() 
-                  <<" potion(s), "
-                  <<students[i].getTotalStrength()<<" total strength."
-                  << std::endl;
+        //std::cout << students[i].getStudentName()
+        //          << ", House: " << students[i].getHouse() 
+        //          <<", "<<students[i].getNumPotions() 
+        //          <<" potion(s), "
+        //          <<students[i].getTotalStrength()<<" total strength."
+        //          << std::endl;
     }
 }
 void WizardPotionInventorySystem::sortStudentsAlphabetically() {
@@ -143,19 +143,19 @@ void WizardPotionInventorySystem::showStudentWizard(const std::string name) cons
 {
 	int index = findStudentIndex(name);
     if (index == -1) {
-        std::cout << "Student wizard " << name << " does not exist." << std::endl;
+        //std::cout << "Student wizard " << name << " does not exist." << std::endl;
         return;
     }
     const StudentWizard& student = students[index];
-    std::cout << "Student wizard:"<< std::endl << student.getStudentName();
-    std::cout << ", House: " << student.getHouse();
-	std::cout << ", " << student.getNumPotions() << " potion(s), " << student.getTotalStrength() << " total strength." << std::endl;
-    std::cout << "Potions:" << std::endl;
+ //   std::cout << "Student wizard:"<< std::endl << student.getStudentName();
+ //   std::cout << ", House: " << student.getHouse();
+	//std::cout << ", " << student.getNumPotions() << " potion(s), " << student.getTotalStrength() << " total strength." << std::endl;
+ //   std::cout << "Potions:" << std::endl;
     for (int i = 0; i < student.getNumPotions(); i++) {
         const Potion& potion = student.getPotion(i);
-        std::cout << potion.getPotionName() 
-			<< ", strength " << potion.getStrength() << "."
-                  << std::endl;
+   //     std::cout << potion.getPotionName() 
+			//<< ", strength " << potion.getStrength() << "."
+   //               << std::endl;
 	}
 }
 
